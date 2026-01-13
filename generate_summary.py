@@ -18,13 +18,17 @@ def generate_summary():
                         # Read with utf-8-sig to handle BOM if present
                         df = pd.read_csv(file_path, encoding='utf-8-sig')
                         
+                        # Normalize column names to lowercase/no space for internal checking
+                        df.columns = [c.strip().lower().replace(' ', '_') for c in df.columns]
+
                         # Ensure expected columns exist
                         if 'chinese_name' in df.columns and 'english_name' in df.columns:
                             # Add country column using folder name
                             df['country'] = item
+                            # Also normalize Japan folder contents if it ever has data
                             all_dfs.append(df[['chinese_name', 'english_name', 'country']])
                         else:
-                            print(f"Skipping {file_path}: Missing required columns.")
+                            print(f"Skipping {file_path}: Missing required columns. Found: {list(df.columns)}")
                     except Exception as e:
                         print(f"Error reading {file_path}: {e}")
     
