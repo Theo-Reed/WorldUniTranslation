@@ -1,58 +1,68 @@
-# WorldUniTranslation
+# Global Universities List
 
-A comprehensive database of universities worldwide, providing both **English** and **Chinese** names for each institution.
+A comprehensive database of universities worldwide, providing standardized **English** and **Chinese** names for each institution.
 
 ## Project Goal
-The objective of this project is to crawl and consolidate a complete list of higher education institutions globally. For every university, we aim to provide:
-- **English Name**: Standard international name.
-- **Chinese Name**: Simplified Chinese name (translated or localized).
+The objective of this project is to consolidate a complete list of higher education institutions globally. For every university, we provide:
+- **_id**: A unique identifier for the combined list.
+- **Chinese Name**: Official simplified Chinese name.
+- **English Name**: Standard international name, cleaned for CSV compatibility.
+- **Country**: The country where the institution is located.
 
 ## Data Structure
-The project is organized by region/country:
+The project is organized by region/country folders:
 
-- `world_universities.csv`: A consolidated list of all universities worldwide.
-- `China/`: Contains data for Mainland China, Hong Kong, Macau, and Taiwan.
-  - Data stored in `china_universities.csv`.
-  - Includes conversion from Traditional to Simplified Chinese for HK/Macau/Taiwan entries.
-- `Japan/`: (In Progress) Planned structure for Japanese institutions.
+- `world_universities.csv`: The master consolidated list of all universities.
+- `China/`: Mainland China, Hong Kong, Macau, and Taiwan records. Missing English names are filled using AI translation.
+- `Japan/`: Data for Japanese institutions, translated from Japanese originals.
+- `Poland/`: Data for Polish institutions, translated from Polish originals.
+- `Egypt/`: Data for Egyptian institutions.
+
+## Features & Automation
+- **AI-Powered Translation**: Uses **Gemini 2.0 Flash** to provide official international English names based on original language names (Polish, Japanese, etc.) or Chinese context.
+- **Incremental Updates**: Scripts track existing records to avoid redundant API calls and save costs.
+- **Data Cleaning**: 
+    - Automatically removes wrapping double quotes around names.
+    - Replaces internal double quotes with single quotes.
+    - Replaces commas with spaces in English names to ensure clean CSV formatting without escaping issues.
+- **Master Summary**: A central script aggregates all regional CSVs into the root database with unique IDs.
 
 ## Summary Generation
-To update the global summary file, run:
+To update the global summary file:
 ```bash
-python3 generate_summary.py
+python generate_summary.py
 ```
-This script traverses all regional folders and aggregates individual CSVs into the root `world_universities.csv`, adding a `country` column based on the folder name.
 
 ## Current Progress
-- [x] **Mainland China**: Extracted from official lists.
-- [x] **Hong Kong**: Scraped from Wikipedia, names mapped and simplified.
-- [x] **Macau**: Scraped from Wikipedia, names mapped and simplified.
-- [x] **Taiwan**: Scraped from Wikipedia, names mapped and simplified.
-- [ ] **Japan**: Researching data sources.
+- [x] **China**: 3000 records (including HK/Macau/Taiwan).
+- [x] **Japan**: 959 records, Gemini-translated from Japanese.
+- [x] **Poland**: 88 records, Gemini-translated from Polish.
+- [x] **Egypt**: 28 records.
 - [ ] **USA**: Planned.
 - [ ] **Europe**: Planned.
 
-## Storage Format
-All finalized regional data is stored in **CSV** format for easy access in Excel and data processing.
-- Encoding: `UTF-8 with BOM` (compatible with Excel).
-- Columns: `chinese_name`, `english_name`.
-
 ## Technical Stack
-- **Python 3**: Core processing language.
-- **Pandas**: Initial data extraction from Excel.
-- **BeautifulSoup4 & Requests**: Web scraping from Wikipedia.
-- **OpenCC**: Traditional to Simplified Chinese conversion.
-- **CSV**: Standard storage format.
+- **Python 3**: Core processing.
+- **Pandas**: Data manipulation and CSV management.
+- **Gemini 2.0 Flash**: Academic-grade translation and entity mapping.
+- **Requests / Curl**: Official API interactions.
+- **python-dotenv**: Secure environment variable management.
 
 ## Setup & Usage
-1. Install dependencies:
-   ```bash
-   pip install pandas requests beautifulsoup4 opencc-python-reimplemented
+1. **API Key**: Create a `.env` file in the root directory:
+   ```env
+   GEMINI_API_KEY=your_key_here
    ```
-2. Run regional scripts to update data:
+2. **Install Dependencies**:
    ```bash
-   python3 China/update_hk_universities.py
+   pip install pandas google-generativeai python-dotenv requests
+   ```
+3. **Run Update Scripts**:
+   ```bash
+   python Poland/update_poland_universities.py
+   python Japan/update_japan_universities.py
    ```
 
-## Contribution
-This project is under active development. The goal is to build the most accurate bilingual university directory available.
+## Storage Format
+- Encoding: `UTF-8 with BOM` for Excel compatibility.
+- Normalized column names (`_id`, `chinese_name`, `english_name`, `country`).
