@@ -9,7 +9,8 @@ The objective of this project is to consolidate a complete list of higher educat
 - **_id**: A unique identifier for the combined list.
 - **Chinese Name**: Official simplified Chinese name.
 - **English Name**: Standard international name, cleaned for CSV compatibility.
-- **Country**: The country where the institution is located.
+- **Country Chinese**: The country name in Chinese.
+- **Country English**: The country name in English.
 
 ## Data Structure
 The project is organized into a modular directory structure for scalability:
@@ -78,4 +79,4 @@ python generate_summary.py
 
 ## Storage Format
 - Encoding: `UTF-8 with BOM` for Excel compatibility.
-- Normalized column names (`_id`, `chinese_name`, `english_name`, `country`).
+- Normalized column names (`_id`, `chinese_name`, `english_name`, `country_chinese`, `country_english`).

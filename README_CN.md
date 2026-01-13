@@ -9,7 +9,8 @@
 - **_id**: 合并列表中的唯一标识符。
 - **中文名称**: 官方简体中文名称。
 - **英文名称**: 标准国际名称（已针对 CSV 兼容性进行清洗）。
-- **国家**: 院校所属国家。
+- **国家（中文）**: 院校所属国家的中文名称。
+- **国家（英文）**: 院校所属国家的英文名称。
 
 ## 数据结构
 项目采用模块化的目录结构，以便于扩展和管理：
@@ -78,4 +79,4 @@ python generate_summary.py
 
 ## 存储格式
 - 编码格式: `UTF-8 with BOM` 以适配 Excel。
-- 标准化列名 (`_id`, `chinese_name`, `english_name`, `country`)。
+- 标准化列名 (`_id`, `chinese_name`, `english_name`, `country_chinese`, `country_english`)。
