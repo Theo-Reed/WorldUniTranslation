@@ -47,6 +47,12 @@ def generate_summary():
     
     if all_dfs:
         summary_df = pd.concat(all_dfs, ignore_index=True)
+        
+        # Add _id column at the beginning
+        # Use a simple range-based unique ID, or you could use a hash if preferred.
+        # Here we use index + 1 for a human-readable unique integer ID.
+        summary_df.insert(0, '_id', range(1, len(summary_df) + 1))
+        
         output_path = os.path.join(project_root, 'world_universities.csv')
         summary_df.to_csv(output_path, index=False, encoding='utf-8-sig')
         print(f"Successfully generated {output_path} with {len(summary_df)} entries.")
