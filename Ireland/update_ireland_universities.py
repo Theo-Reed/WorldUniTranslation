@@ -1,0 +1,56 @@
+import json
+import csv
+import os
+import subprocess
+
+def fetch_universities(country_name, page_size=1000):
+    url = "https://yxcx.cscse.edu.cn/api/xlxwrzz/xlxwrz/getUniversityListOrPage"
+    payload = {
+        "country": country_name,
+        "currentPage": 1,
+        "pageSize": page_size,
+        "universityIndex": ""
+    }
+    
+    curl_command = [
+        "curl", "-s", "-X", "POST", url,
+        "-H", "Content-Type: application/json",
+        "-d", json.dumps(payload)
+    ]
+    
+    try:
+        process = subprocess.run(curl_command, capture_output=True, text=True, check=True)
+        result = json.loads(process.stdout)
+        return result.get("data", [])
+    except Exception as e:
+        print(f"Error fetching data for {country_name}: {e}")
+        return []
+
+def main():
+    country = "爱尔兰"
+    name = "ireland"
+    print(f"Fetching data for {country}...")
+    data = fetch_universities(country)
+    
+    if not data:
+        print("No data found.")
+        return
+
+    csv_path = os.path.join(os.path.dirname(__file__), f"{name}_universities.csv")
+    with open(csv_path, mode='w', encoding='utf-8-sig', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(["Chinese Name", "English Name"])
+        for item in data:
+            chinese_name = str(item.get("CHINESE_NAME")).strip()
+            english_name = str(item.get("ENGLISH_NAME", "")).strip()
+            
+            if english_name.startswith('"') and english_name.endswith('"'):
+                english_name = english_name[1:-1].strip()
+            english_name = english_name.replace('"', "'").replace(',', ' ')
+            
+            writer.writerow([chinese_name, english_name])
+
+    print(f"Successfully saved {len(data)} universities to {csv_path}")
+
+if __name__ == "__main__":
+    main()

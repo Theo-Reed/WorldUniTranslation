@@ -36,11 +36,19 @@ python generate_summary.py
 ```
 
 ## Current Progress
-- [x] **China**: 3000 records (including HK/Macau/Taiwan).
-- [x] **Japan**: 959 records, Gemini-translated from Japanese.
-- [x] **Poland**: 88 records, Gemini-translated from Polish.
-- [x] **Egypt**: 28 records.
-- [ ] **USA**: Planned.
+- [x] 🇨🇳 **China**: 3000 records (including HK/Macau/Taiwan).
+- [x] 🇺🇸 **USA**: 1539 records.
+- [x] 🇯🇵 **Japan**: 959 records, Gemini-translated from Japanese.
+- [x] 🇮🇳 **India**: 245 records.
+- [x] 🇬🇧 **UK**: 163 records.
+- [x] 🇵🇭 **Philippines**: 159 records.
+- [x] 🇲🇾 **Malaysia**: 116 records.
+- [x] 🇦🇺 **Australia**: 114 records.
+- [x] 🇵🇱 **Poland**: 88 records, Gemini-translated from Polish.
+- [x] 🇪🇬 **Egypt**: 28 records.
+- [x] 🇸🇬 **Singapore**: 15 records.
+- [x] 🇮🇪 **Ireland**: 14 records.
+- [x] 🇶🇦 **Qatar**: 2 records.
 - [ ] **Europe**: Planned.
 
 ## Technical Stack
