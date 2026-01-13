@@ -2,6 +2,8 @@
 
 A comprehensive database of universities worldwide, providing standardized **English** and **Chinese** names for each institution.
 
+[中文版](README_CN.md)
+
 ## Project Goal
 The objective of this project is to consolidate a complete list of higher education institutions globally. For every university, we provide:
 - **_id**: A unique identifier for the combined list.
