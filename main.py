@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 # Load environment variables
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), 'scripts', '.env'))
 
 # --- Configuration & Data ---
 
@@ -118,7 +118,8 @@ class UniversityProjectManager:
         and removes duplicates.
         """
         print("Starting Normalization...")
-        csv_files = glob.glob(os.path.join(self.project_root, '*', '*_universities.csv'))
+        # Search for csv files in data/[country]/[country]_universities.csv
+        csv_files = glob.glob(os.path.join(self.project_root, 'data', '*', '*_universities.csv'))
         
         for file_path in csv_files:
             if 'world_universities.csv' in file_path:
@@ -213,12 +214,12 @@ class UniversityProjectManager:
         Scans all CSVs. If english_name is missing or invalid, translates it.
         """
         print("\nStarting Translation Tasks...")
-        csv_files = glob.glob(os.path.join(self.project_root, '*', '*_universities.csv'))
+        csv_files = glob.glob(os.path.join(self.project_root, 'data', '*', '*_universities.csv'))
         
         for file_path in csv_files:
             if 'China' in file_path: continue 
             
-            relative_path = os.path.relpath(file_path, self.project_root)
+            relative_path = os.path.relpath(file_path, os.path.join(self.project_root, 'data'))
             country_name = os.path.dirname(relative_path) 
             
             try:
@@ -272,9 +273,14 @@ class UniversityProjectManager:
         print("\nGenerating World Summary...")
         all_dfs = []
         
-        # Search for all csv files in subdirectories
-        for item in os.listdir(self.project_root):
-            item_path = os.path.join(self.project_root, item)
+        data_root = os.path.join(self.project_root, 'data')
+        if not os.path.exists(data_root):
+            print(f"Error: Data directory not found at {data_root}")
+            return
+
+        # Search for all csv files in subdirectories of data/
+        for item in os.listdir(data_root):
+            item_path = os.path.join(data_root, item)
             if os.path.isdir(item_path) and not item.startswith('.'):
                 for file in os.listdir(item_path):
                     if file.endswith('.csv'):

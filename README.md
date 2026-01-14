@@ -2,6 +2,8 @@
 
 A comprehensive database of universities worldwide, providing standardized **English** and **Chinese** names for each institution.
 
+[中文版](./README_CN.md)
+
 ## Project Overview
 
 This project maintains a curated list of higher education institutions globally. It serves as a centralized database where every university entry includes:
@@ -22,8 +24,9 @@ The entire project is managed by a single unified script: `main.py`.
     ```bash
     pip install pandas google-genai python-dotenv
     ```
-3.  Set up your `.env` file with your Gemini API key (required for translation):
+3.  Set up your `.env` file in the `scripts/` directory with your Gemini API key:
     ```env
+    # scripts/.env
     GEMINI_API_KEY=your_api_key_here
     ```
 
@@ -41,20 +44,22 @@ This script performs three main tasks:
 
 ## 📂 Project Structure
 
-The data is organized by country. Each country folder contains the source data.
+Data is organized by country within the `data/` directory. Configuration and utility scripts are located in `scripts/`.
 
 ```
 .
 ├── main.py                     # The core management script
 ├── world_universities.csv      # The final output (Master Database)
-├── China/                      # Special handling for China data (contains fetch scripts)
-├── USA/
-│   ├── usa_universities.csv    # Cleaned data
-│   └── raw.json                # Raw data backup
-├── France/
-│   ├── france_universities.csv
-│   └── raw.json
-└── ... (other countries)
+├── README.md                   # English documentation
+├── README_CN.md                # Chinese documentation
+├── data/                       # Raw and cleaned data
+│   ├── China/                  # Special handling for China data
+│   ├── USA/                    # USA data
+│   └── ...                     # Other countries
+└── scripts/                    # Configuration and utilities
+    ├── .env                    # Environment variables (API Key)
+    ├── ssl_adapter.py          # Network utility
+    └── openssl_legacy.cnf      # SSL configuration
 ```
 
 ## ✨ Key Features
@@ -65,7 +70,7 @@ The data is organized by country. Each country folder contains the source data.
 - **Regions**: Special handling for **Hong Kong**, **Macau**, and **Taiwan** to ensure correct formatting in the global list.
 
 ## Data Sources
-- **China**: Collected via specific scrapers (retained in `China/` folder).
+- **China**: Collected via specific scrapers (retained in `data/China/` folder).
 - **Global**: A compilation from various official lists, standardized into a uniform format.
 
 ## License
